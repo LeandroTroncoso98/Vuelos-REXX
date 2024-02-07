@@ -1,0 +1,18 @@
+)ATTR
+?  TYPE(TEXT) INTENS(LOW) JUST(LEFT) COLOR(YELLOW) HILITE(REVERSE)
+/  TYPE(INPUT) PAD('_') CAPS(ON) COLOR(YELLOW)
+(  TYPE(TEXT) INTENS(HIGH) COLOR(RED) HILITE(REVERSE)
+#  TYPE(TEXT) INTENS(LOW) COLOR(GREEN)
+)BODY
+%
+%  %( Logistica de vuelos %                               FECHA:&FCH
+%-------------------------------------------------------------------------------
+%
+% ?Ingrese el dato para filtrar:%/filt      %
+%  &MSG
+)INIT
+     .CURSOR = filt
+)PROC
+ VER(&filt,NB)
+)END
+

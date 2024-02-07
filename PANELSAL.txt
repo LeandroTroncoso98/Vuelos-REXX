@@ -1,0 +1,20 @@
+)ATTR
+  $ TYPE(OUTPUT) INTENS(HIGH) COLOR(YELLOW)
+  @ TYPE(TEXT) INTENS(HIGH) COLOR(GREEN)
+  ) TYPE(TEXT) INTENS(HIGH) COLOR(BLUE)
+?  TYPE(TEXT) INTENS(LOW) JUST(LEFT) COLOR(YELLOW) HILITE(REVERSE)
+/  TYPE(INPUT) PAD('_') CAPS(ON) COLOR(YELLOW)
+(  TYPE(TEXT) INTENS(HIGH) COLOR(RED) HILITE(REVERSE)
+#  TYPE(TEXT) INTENS(LOW) COLOR(GREEN)
+)BODY
+%Comando ===>%_CMDIN %                              %Scroll ===>_SCIN
+%
+%  (VUELOS SOLICITADOS:%                                  FECHA:&FCH
+%-------------------------------------------------------------------------------
+)MODEL
+$Z
+)INIT
+ &VARS = '(TABLE1)'
+ &SCIN = CUR
+)END
+

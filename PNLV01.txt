@@ -1,0 +1,25 @@
+)ATTR
+?  TYPE(TEXT) INTENS(LOW) JUST(LEFT) COLOR(YELLOW) HILITE(REVERSE)
+/  TYPE(INPUT) PAD('_') CAPS(ON) COLOR(YELLOW)
+(  TYPE(TEXT) INTENS(HIGH) COLOR(RED) HILITE(REVERSE)
+#  TYPE(TEXT) INTENS(LOW) COLOR(GREEN)
+)BODY
+%
+%  %( Logistica de vuelos %                               FECHA:&FCH
+%-------------------------------------------------------------------------------
+%
+%            %? Seleccione una opcion: %/Z%
+%            &MSG
+%
+%     #1. Mostrar todos los vuelos.
+%
+%     #2. Filtrar vuelos por ubicacion.
+%
+%     #3. Agregar vuelo.
+%
+%     #X. Salir.
+%
+)INIT
+     .ZVARS = '(OPCION)'
+)END
+

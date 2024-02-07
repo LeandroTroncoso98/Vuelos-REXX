@@ -1,0 +1,14 @@
+Numero   Origen       Destino        Fecha           Hora de Salida   Hora de Llegada   Aerolinea   Avion            Disponibles   Precio
+------   -----------  -------------  --------------  ---------------  ----------------  ----------  ---------------  ------------  --------
+AA101    NUEVA YORK   LOS ANGELES    2023-12-15      08:00 AM         12:00 PM          AMERICAN    BOEING 737       120            $300.00
+UA202    CHICAGO      MIAMI          2023-12-16      10:30 AM         02:30 PM          UNITED      AIRBUS A320      150            $250.00
+DL303    ATLANTA      SAN FRANCISCO  2023-12-17      12:45 PM         05:00 PM          DELTA       BOEING 757       100            $350.00
+LH404    FRANKFURT    NUEVA YORK     2023-12-18      03:15 PM         07:30 PM          LUFTHANSA   AIRBUS A380      300            $500.00
+SQ505    SINGAPUR     TOKIO          2023-12-19      09:00 AM         01:00 PM          SINGAPORE   BOEING 777       200            $450.00
+AA201    LOS ANGELES  NUEVA YORK     2023-12-20      12:00 PM         06:00 PM          AMERICAN    BOEING 787       150            $350.00
+UA303    MIAMI        CHICAGO        2023-12-21      02:30 PM         08:30 PM          UNITED      AIRBUS A321      120            $280.00
+DL404    SAN FRANC.   ATLANTA        2023-12-22      05:15 PM         11:30 PM          DELTA       BOEING 767       180            $400.00
+LH505    NUEVA YORK   FRANKFURT      2023-12-23      07:45 PM         02:00 AM          LUFTHANSA   AIRBUS A350      200            $480.00
+SQ606    TOKIO        SINGAPUR       2023-12-24      01:30 AM         07:30 AM          SINGAPORE   BOEING 747       250            $550.00
+AA301    ALASKA       CHICAGO        2023-12-16      03:47 PM         05:59 PM          DELTA AIR.  AIRBUS A220      110            $235.90
+

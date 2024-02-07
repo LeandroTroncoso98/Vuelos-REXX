@@ -1,0 +1,148 @@
+/* REXX */
+DO run_i = 1 TO 10
+ "ISPEXEC CONTROL NONDISPL END"
+ "ISPEXEC DISPLAY PANEL(ISR003"RIGHT(run_i,2,'0')")"
+END
+/*------INITIAL PROGRAM------*/
+FILE="CURSO.VUELOSEQ";
+"CLRSCN"
+INICIO:
+ DO UNTIL OPCION ="X"
+ "ISPEXEC LIBDEF ISPPLIB DATASET ID('Z38891.CURSO.VUELO')"
+ OPCION = "";
+ filt = "";
+ FCH=DATE(E);
+ "ISPEXEC DISPLAY PANEL(PNLV01)"
+ SELECT
+  WHEN OPCION = "" THEN RETURN;
+  WHEN OPCION = 1 THEN CALL VIEWGRAL;
+  WHEN OPCION = 2 THEN CALL FLTLCTN;
+  WHEN OPCION = 3 THEN CALL CRTVUE;
+  WHEN OPCION = 4 THEN CALL DLTVUE;
+  WHEN OPCION = "X" THEN EXIT;
+  OTHERWISE DO;
+   MSG = "Debe ingresar una opcion valida.";
+   CALL INICIO;
+  END;
+ END;
+ END;
+EXIT;
+/*-----------------Cargamos el seq en el stem REG. ------------------*/
+CARGARSTEM:
+ "ALLOC F(INDD) DA("FILE") SHR REUSE"
+ "EXECIO * DISKR INDD (FINIS STEM REG."
+ "FREE F(INDD)"
+RETURN;
+/*---------------------- Funcion busqueda general-------------------- */
+VIEWGRAL:
+ CALL CARGARSTEM;
+ "ISPEXEC LIBDEF ISPPLIB DATASET ID('Z38891.CURSO.VUELO')"
+ "ISPEXEC TBCREATE TABLE1 NAMES(TABLE1) REPLACE NOWRITE"
+ "ISPEXEC TBVCLEAR TABLE1"
+ DO I = 1 TO REG.0
+  TABLE1 = REG.I
+  "ISPEXEC TBADD TABLE1"
+ END;
+ "ISPEXEC TBTOP TABLE1"
+ "ISPEXEC TBDISPL TABLE1 PANEL(PANELSAL)"
+RETURN;
+/*---------------- Funcion filtrar busqueda------------------------*/
+FLTLCTN:
+ "ISPEXEC LIBDEF ISPPLIB DATASET ID('Z38891.CURSO.VUELO')"
+ "ISPEXEC DISPLAY PANEL(PNLV02)"
+ CONTADOR = 1;
+ CALL CARGARSTEM;
+ OUT.CONTADOR = REG.1;
+ CONTADOR = CONTADOR + 1;
+ OUT.CONTADOR = REG.2;
+ filt = STRIP(filt);
+ DO I = 1 TO REG.0
+  IF WORDPOS(filt,REG.I) > 0 THEN DO;
+   CONTADOR = CONTADOR + 1;
+   OUT.CONTADOR = REG.I;
+  END;
+ END;
+ OUT.0 = CONTADOR;
+ "ISPEXEC LIBDEF ISPPLIB DATASET ID('Z38891.CURSO.VUELO')"
+ "ISPEXEC TBCREATE TABLE1 NAMES(TABLE1) REPLACE NOWRITE"
+ "ISPEXEC TBVCLEAR TABLE1"
+ DO I = 1 TO OUT.0
+   TABLE1 = OUT.I;
+   "ISPEXEC TBADD TABLE1"
+ END;
+ "ISPEXEC TBTOP TABLE1"
+ "ISPEXEC TBDISPL TABLE1 PANEL(PANELSAL)"
+RETURN;
+/*--------------------- funcion agregar registro----------------------*/
+CRTVUE:
+"ISPEXEC DISPLAY PANEL(PANELNEW)"
+IF LENGTH(num)>0|LENGTH(origen)>0|LENGTH(fechvuel)>0,
+   | LENGTH(destino) > 0 |LENGTH(horasali)>0|LENGTH(horalleg)>0,
+   | LENGTH(aeroline) > 0 | LENGTH(avion) > 0,
+   | LENGTH(disp)>0|LENGTH(precio)>0 THEN DO;
+ IF VALIDARNUM(num) = 0 THEN DO;
+  num = LEFT(num,9);
+  origen = LEFT(origen,13);
+  fechvuel = LEFT(fechvuel,16);
+  destino = LEFT(destino,15);
+  horasali = LEFT(horasali,17);
+  horalleg = LEFT(horalleg,18);
+  aeroline = LEFT(aeroline,12);
+  avion = LEFT(avion,17);
+  disp = LEFT(disp,14);
+  precio = "$"||precio;
+  precio = RIGHT(precio,8);
+  newvuelo = num||origen||destino||fechvuel||horasali||horalleg,
+  ||aeroline||avion||disp||precio;
+  CALL CARGARSTEM;
+  RAIZ = REG.0;
+  RAIZ = RAIZ + 1;
+  REG.RAIZ = newvuelo;
+  "ALLOC F(OUTDD) DA("FILE") OLD REUSE"
+  "EXECIO * DISKW OUTDD (FINIS STEM REG."
+  "FREE F(OUTDD)"
+  IF RC = 0 THEN SAY "Se ha agregado el registro con exito...RC:"RC;
+  ELSE SAY "Hubo un error al generar el archivo";
+ END;
+ ELSE SAY "ERROR AL CREAR REGISTRO DUPLICADO";
+END;
+RETURN;
+/*-------- Validamos que el numero de vuelo exista ---------------*/
+VALIDARNUM:
+ARG NUMVALIDAR;
+CALL CARGARSTEM;
+DO I=1 TO REG.0
+ NUMOFREGI = SUBSTR(REG.I,1,5);
+ IF COMPARE(NUMVALIDAR,NUMOFREGI) = 0 THEN RETURN 1;
+ ELSE NOP;
+END;
+RETURN 0;
+/*---------- Eliminar registro por numero de vuelo -------------*/
+DLTVUE:
+ CALL CARGARSTEM;
+ numvue = "";
+ REGTEMP.0 = 0;
+ MESSAGED = "";
+ coincidence = 0;
+ "ISPEXEC DISPLAY PANEL(PNLDLT)"
+ IF LENGTH(numvue) > 0 THEN DO;
+ numvue = STRIP(numvue);
+  DO I=1 TO REG.0
+   IF POS(numvue,REG.I) = 0 THEN DO;
+    REGTEMP.0 = REGTEMP.0 + 1;
+    pointed = REGTEMP.0;
+    REGTEMP.pointed = REG.I;
+   END;
+   ELSE coincidence = 1;
+  END;
+  IF coincidence = 1 THEN DO;
+   "ALLOC F(OUTDD) DA("FILE") OLD REUSE"
+   "EXECIO * DISKW OUTDD (FINIS STEM REGTEMP."
+   "FREE F(OUTDD)"
+   IF RC = 0 THEN
+    SAY "Se ha eliminado con exito... RC:"RC;
+  END;
+  ELSE SAY "No existe numero de vuelo";
+ END;
+RETURN;
+

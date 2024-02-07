@@ -1,0 +1,25 @@
+)ATTR
+? TYPE(TEXT) INTENS(HIGH) JUST(LEFT) COLOR(YELLOW)
+/ TYPE(INPUT) PAD('_') CAPS(ON) COLOR(YELLOW) HILITE(REVERSE)
+( TYPE(TEXT) INTENS(HIGH) COLOR(GREEN)
+# TYPE(TEXT) INTENS(HIGH) COLOR(GREEN) HILITE(REVERSE)
+)BODY
+%
+%                     #Agregar nuevo vuelo%
+%                                                    (Fecha:&FCH    %
+%-------------------------------------------------------------------------------
+%
+%
+%      ?Numero:/num  %               ?Fecha:/fechvuel  % (YYYY-MM-AA    %
+%
+%      ?Origen:/origen     %         ?Destino:/destino      %
+%
+%      ?Hora de salida:/horasali%  (hh:mm PM or AM.
+%
+%      ?Hora de llegada:/horalleg% (hh:mm PM or AM.
+%
+%      ?Aeorolinea:/aeroline  %       ?Avion:/avion           %
+%
+%      ?Disponibles:/disp%            ?Precio:$/precio%
+)END
+
